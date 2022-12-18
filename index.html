@@ -185,39 +185,29 @@
             
             function touchon(event) {
                 console.log(event.type)
+
                
-                if (event.type==="touchstart") {
-                  event.preventDefault()
                    ctrlDown=true
                    controls.enabled=false
                    renderer.domElement.style.cursor = 'crosshair'
-                   renderer.domElement.style.backgroundColor="red"
-                   targetTouches.x = +(event.targetTouches[0].pageX / window.innerWidth) * 2 -1;
-                   targetTouches.y = -(event.targetTouches[0].pageY /  window.innerWidth) * 2 +1;
-                   console.log("control-1")
-                   console.log("touch count ",event.touches.length)
                 
-            }
-                        if(event.touches.length == 2){
-                            window.removeEventListener('touchstart', touchon,false)
-                            window.removeEventListener('touchend',  touchoff,false)
-                            document.removeEventListener('touchmove', onDocumentTouchMove,false)    
-                            renderer.domElement.removeEventListener('pointerdown',onlyClick,false)
-                            controls.enabled=true
-                          
-                            console.log("zoom")
-                        }
+                   targetTouches.x = +(event.changedTouches[0].clientX  / window.innerWidth) * 2 -1;
+                   targetTouches.y = -(event.changedTouches[0].clientX  /  window.innerWidth) * 2 +1;
+                   console.log("control-1")
+                   console.log("touch count ",event.touches.length)  
+                   event.preventDefault()
             }
 
            function touchoff(event) {
                 console.log(event.type)
                
-                if (event.type === 'touchend') {
+        
                     ctrlDown = false
                     controls.enabled=true
                 
                     console.log("control-2")
                     renderer.domElement.style.cursor = 'pointer'
+                    event.preventDefault()
                     //if (drawingLine) {
                         //delete the last line because it wasn't committed
                         // scene.remove(line)
@@ -226,7 +216,7 @@
                         
                        // console.log("remove-line")
                    // }
-                }
+                
             }
 
             
