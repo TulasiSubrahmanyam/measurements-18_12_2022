@@ -198,14 +198,15 @@
                    console.log("touch count ",event.touches.length)
                 
             }
-            if(event.touches.length === parseInt(2))
+            if(event.touches.length ===2){
 
             controls.enabled=true
                 window.removeEventListener('touchstart', touchon,false)
                 window.removeEventListener('touchend',  touchoff,false)
                 document.removeEventListener('touchmove', onDocumentTouchMove,false)    
                 renderer.domElement.removeEventListener('pointerdown',onlyClick,false)
-            console.log("zoom")
+                console.log("zoom")
+            }
             }
 
            function touchoff(event) {
