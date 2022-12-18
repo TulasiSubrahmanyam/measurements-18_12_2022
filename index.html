@@ -199,9 +199,12 @@
                 
             }
                         if(event.touches.length == 2){
-
+                            window.removeEventListener('touchstart', touchon,false)
+                            window.removeEventListener('touchend',  touchoff,false)
+                            document.removeEventListener('touchmove', onDocumentTouchMove,false)    
+                            renderer.domElement.removeEventListener('pointerdown',onlyClick,false)
                             controls.enabled=true
-                        
+                          
                             console.log("zoom")
                         }
             }
