@@ -195,7 +195,7 @@
                    targetTouches.y = -(event.changedTouches[0].clientX  /  window.innerWidth) * 2 +1;
                    console.log("control-1")
                    console.log("touch count ",event.touches.length)  
-                   event.preventDefault()
+                  
             }
 
            function touchoff(event) {
@@ -207,7 +207,7 @@
                 
                     console.log("control-2")
                     renderer.domElement.style.cursor = 'pointer'
-                    event.preventDefault()
+                 
                     //if (drawingLine) {
                         //delete the last line because it wasn't committed
                         // scene.remove(line)
@@ -282,7 +282,7 @@
      
             function onDocumentTouchMove(event) {
                 console.log(event.type)
-                event.preventDefault()  
+                //event.preventDefault()  
             //let touches=event.pointer
               //  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
