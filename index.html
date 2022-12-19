@@ -77,9 +77,9 @@
             scene.add(light)
 
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000)
-            camera.position.x = 15
-            camera.position.y = 15
-            camera.position.z = 15
+            camera.position.x = 20
+            camera.position.y = 20
+            camera.position.z = 20
 
 
             const renderer = new THREE.WebGLRenderer()
@@ -163,7 +163,7 @@
                 window.addEventListener('touchstart', touchon,false)
                 window.addEventListener('touchend',  touchoff,false)
                 document.addEventListener('touchmove', onDocumentTouchMove,false)    
-                renderer.domElement.addEventListener('pointerdown',onlyClick,false)
+               renderer.domElement.addEventListener('pointerdown',onlyClick,false)
                 //document.addEventListener('mousemove', onDocumentMouseMove, false)
                
             }else if(buttonClicks.value==="on"){
@@ -185,20 +185,25 @@
             
             function touchon(event) {
                 console.log(event.type)
+                console.log("touch count ",event.touches.length) 
 
-               
+               if(event.touches.length ===1){
                    ctrlDown=true
                    controls.enabled=false
                    renderer.domElement.style.cursor = 'crosshair'
-                
-                   targetTouches.x = +(event.changedTouches[0].clientX  / window.innerWidth) * 2 -1;
-                   targetTouches.y = -(event.changedTouches[0].clientX  /  window.innerWidth) * 2 +1;
+                   raycaster.setFromCamera(
+                    {
+                        x: (event.targetTouches[0].clientX / renderer.domElement.clientWidth) * 2 - 1,
+                        y: -(event.targetTouches[0].clientY / renderer.domElement.clientHeight) * 2 + 1,
+                    },
+                    camera
+                )
                    console.log("control-1")
-                   console.log("touch count ",event.touches.length)  
+               }  
                   
             }
 
-           function touchoff(event) {
+          function touchoff(event) {
                 console.log(event.type)
                
         
@@ -224,13 +229,16 @@
 
             const raycaster = new THREE.Raycaster()
             let intersects
-            const targetTouches = new THREE.Vector2()
-            
-
+            //const targetTouches = new THREE.Vector2(1,0.5)
+          
            
-            function onlyClick(event) {
+           function onlyClick(event) {
+            const touch = {
+                    x: (event.clientX / renderer.domElement.clientWidth) * 2 - 1,
+                    y: -(event.clientY / renderer.domElement.clientHeight) * 2 + 1,
+                }
                 if (!ctrlDown) {
-                    raycaster.setFromCamera(targetTouches, camera)
+                    raycaster.setFromCamera(touch, camera)
                     console.log("raycaster")
                     intersects = raycaster.intersectObjects(pickableObjects, false)
                     if (intersects.length > 0) {
@@ -286,14 +294,16 @@
             //let touches=event.pointer
               //  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
                // mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-                targetTouches.x = +(event.targetTouches[0].pageX / window.innerWidth) * 2 -1;
-                targetTouches.y = -(event.targetTouches[0].pageY / window.innerHeight) * 2 + 1;
+               const touch = {
+                    x: (event.targetTouches[0].clientX / renderer.domElement.clientWidth) * 2 - 1,
+                    y: -(event.targetTouches[0].clientY / renderer.domElement.clientHeight) * 2 + 1,
+                }
                 if (drawingLine) {
-                    raycaster.setFromCamera(targetTouches, camera)
+                    raycaster.setFromCamera(touch, camera)
                     intersects = raycaster.intersectObjects(pickableObjects, false)
                     if (intersects.length > 0) {
                         const positions = line.geometry.attributes.position.array
-                        const v0 = new THREE.Vector3(positions[0], positions[1], positions[2])
+                        const v0 = new THREE.Vector3(positions[0], positions[1], positions[2],)
                         const v1 = new THREE.Vector3(
                             intersects[0].point.x,
                             intersects[0].point.y,
